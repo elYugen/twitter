@@ -1,0 +1,62 @@
+.createPost {
+  display: flex;
+  border: 1px solid #56658d;
+  padding: 15px;
+  margin-bottom: 20px;
+  width: 80%;
+}
+
+.profilePicture {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-right: 15px;
+}
+
+.textareaContainer {
+  flex-grow: 1;
+
+  textarea {
+    width: 100%;
+    border: none;
+    resize: vertical;
+    min-height: 50px;
+    padding: 5px;
+    margin-bottom: 10px;
+    background: none;
+    color: white;
+  }
+
+  textarea:focus {
+    outline: none;
+  }
+}
+
+hr {
+  border: none;
+  border-top: 1px solid #56658d;
+  margin: 0;
+}
+
+.createPostOption {
+    display: flex;
+    align-items: center;
+    margin-top: 10px;
+    justify-content:space-between;
+}
+
+.createPostOptionAll {
+    display: flex;
+    gap: 10px;
+    font-size: 20px;
+}
+@media only screen and (max-width: 768px) {
+    .createPost {
+        display: flex;
+        border: 1px solid #56658d;
+        padding: 15px;
+        margin-bottom: 20px;
+        width: 80%;
+      }
+}

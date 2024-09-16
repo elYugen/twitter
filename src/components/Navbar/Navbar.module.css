@@ -1,0 +1,123 @@
+.navbar {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    /* border: 1px solid black; */
+}
+
+.navbarItem {
+    display: flex;
+    flex-direction: column;
+    gap: 50px;
+}
+
+.navbarLink {
+    font-size: 20px;
+}
+
+.navbarUser {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 20px;
+
+    img {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    }
+}
+
+.navbarUserData {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    .navbarUserDataMail {
+        color: #91949c;
+    }
+
+    p {
+        margin: 0;
+        line-height: 2;
+    }
+}
+
+.navbarLinkProfil {
+    display: none;
+}
+
+@media only screen and (max-width: 768px) {
+    .navbar {
+        position: fixed;
+        bottom: 0;
+        width: 100%;
+        z-index: 100;
+        background-color: rgba(0, 0, 0, 0.1); 
+        backdrop-filter: blur(10px); 
+        -webkit-backdrop-filter: blur(10px);
+    }
+    
+    .navbar .navbarLogo {
+        display: none;
+    }
+    
+    .navbar .navbarItem {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-around;
+        flex-wrap: wrap;
+        padding: 0;
+    }
+    
+    .navbar .navbarItem .navbarLinkProfil {
+        display: inline;
+    }
+    
+    .navbar .navbarItem button {
+        display: none;
+    }
+
+    .navbar .navbarItem .navbarUser {
+        display: none;
+    }
+
+    .navbar .navbarItem .navbarLink {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin: 0;
+        padding: 0;
+    }
+    
+    .navbar .navbarItem .navbarLink i {
+        font-size: 22px;
+    }
+    
+    .navbar .navbarItem .navbarLink a {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        font-size: 14px;
+        color: white;
+        font-weight: 500;
+    }
+    
+    .navbar .navbarItem .navbarItem :hover {
+        color: #2eaebf;
+        cursor: pointer;
+    }
+    
+    .navbar .navbarItem .navbarItem :hover a {
+        color: #2eaebf;
+        cursor: pointer;
+    }
+    .navbar .navbarItem .navbarLinkActive {
+        color: #2eaebf;
+    }
+    
+    .navbar .navbarItem .navbarLinkActive a {
+        color: #2eaebf;
+    }
+}

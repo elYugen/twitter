@@ -1,0 +1,74 @@
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0,0,0,0.4);
+  }
+  
+  .modalContent {
+    background-color: #fefefe;
+    margin: 15% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+    max-width: 600px;
+  }
+  
+  .close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+  }
+  
+  .close:hover,
+  .close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+  }
+  
+  /* Styles pour la box à l'intérieur du modal */
+  .postBox {
+    display: flex;
+    border: 1px solid #56658d;
+    padding: 15px;
+    margin-top: 20px;
+  }
+  
+  .profilePicture {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-right: 15px;
+  }
+  
+  .content {
+    flex-grow: 1;
+  }
+  
+  textarea {
+    width: 100%;
+    border: none;
+    resize: vertical;
+    min-height: 50px;
+    padding: 5px;
+    margin-bottom: 10px;
+  }
+  
+  textarea:focus {
+    outline: none;
+  }
+  
+  hr {
+    border: none;
+    border-top: 1px solid #56658d;
+    margin: 0;
+  }

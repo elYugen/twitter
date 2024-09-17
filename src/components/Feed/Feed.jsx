@@ -36,10 +36,10 @@ function Feed() {
             </div>
             <div className={styles.postContent}>
               <p>{post.content}</p>
-              {post.image_id && <img src={post.image} alt="post" className={styles.postConentImage}/>}
+              {post.image_id && <img src={post.image} alt="post" className={styles.postContentImage}/>}
             </div>
             <div className={styles.postIcon}>
-              <a href="#"><IoChatbubbleOutline /> 14</a> {/* Nombre de commentaires */}
+              <a href="#"><IoChatbubbleOutline /> {post.comment_count}</a> {/* Nombre de commentaires */}
             </div>
           </div>
         ))

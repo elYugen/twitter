@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : localhost:3306
--- Généré le : lun. 16 sep. 2024 à 16:25
+-- Généré le : mar. 17 sep. 2024 à 14:52
 -- Version du serveur : 8.0.30
 -- Version de PHP : 8.1.10
 
@@ -18,7 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Base de données : `wishtter`
+-- Base de données : `twitter`
 --
 
 -- --------------------------------------------------------
@@ -34,6 +34,13 @@ CREATE TABLE `comments` (
   `content` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
+--
+-- Déchargement des données de la table `comments`
+--
+
+INSERT INTO `comments` (`id`, `author_id`, `publication_id`, `content`) VALUES
+(1, 1, 4, 'J\'aime pas trop l\'espace, tout ça. Mais par contre j\'aime bien les Renault Espace');
+
 -- --------------------------------------------------------
 
 --
@@ -48,6 +55,16 @@ CREATE TABLE `publications` (
   `image_id` int DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
+--
+-- Déchargement des données de la table `publications`
+--
+
+INSERT INTO `publications` (`id`, `author_id`, `content`, `publishdate`, `image_id`) VALUES
+(1, 1, 'blablabla', '2024-09-17', NULL),
+(2, 1, 'Je suis une publication dans la bdd', '2024-09-17', 1),
+(3, 2, 'Salut, je suis nouveau sur Wishtter', '2024-09-17', NULL),
+(4, 2, 'J\'aime bien l\'espace !!!!!', '2024-09-18', 2);
+
 -- --------------------------------------------------------
 
 --
@@ -61,6 +78,14 @@ CREATE TABLE `publication_image` (
   `uploader_id` int NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
+--
+-- Déchargement des données de la table `publication_image`
+--
+
+INSERT INTO `publication_image` (`id`, `publication_id`, `image`, `uploader_id`) VALUES
+(1, 2, 'https://wallpaper.forfun.com/fetch/87/87c93aa33275b4c8c73637ad3fbee836.jpeg', 1),
+(2, 4, 'https://www.polytechnique-insights.com/wp-content/uploads/2022/11/space-1024x640.jpeg', 2);
+
 -- --------------------------------------------------------
 
 --
@@ -72,8 +97,17 @@ CREATE TABLE `users` (
   `username` varchar(255) NOT NULL,
   `email` varchar(255) NOT NULL,
   `password` varchar(60) NOT NULL,
-  `pictures` varchar(255) NOT NULL DEFAULT 'https://i.pravatar.cc/300'
+  `pictures` varchar(255) NOT NULL DEFAULT 'https://i.pravatar.cc/300',
+  `created_at` int NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Déchargement des données de la table `users`
+--
+
+INSERT INTO `users` (`id`, `username`, `email`, `password`, `pictures`, `created_at`) VALUES
+(1, 'admin', 'admin@admin', '$2y$10$EGWjq0KPjRMbbNMilS5wEuPI65HiSXeIBQz4Wbuo1GP1I177nlKrS', 'https://attakus.art/wp-content/uploads/2022/10/dark-vador-darth-vader-article-attakus-art.jpg', 14),
+(2, 'Kevin', 'kev@in.fr', '$2y$10$Qt8vRE1gwzyIEHWbjz.4ne4br5PYTAf4DgvM.Y5q3Tpg2SZ6XeoYW', 'https://content.imageresizer.com/images/memes/Venom-slam-dunk-meme-4.jpg', 2024);
 
 --
 -- Index pour les tables déchargées
@@ -116,25 +150,25 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT pour la table `comments`
 --
 ALTER TABLE `comments`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT pour la table `publications`
 --
 ALTER TABLE `publications`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT pour la table `publication_image`
 --
 ALTER TABLE `publication_image`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT pour la table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- Contraintes pour les tables déchargées

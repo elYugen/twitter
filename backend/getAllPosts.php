@@ -7,9 +7,20 @@ header('Content-Type: application/json');
 
 $db = dbconnect();
 
-$query = "SELECT publications.id, publications.author_id, publications.content, publications.publishdate, publications.image_id, users.username, users.pictures
+$query = "SELECT 
+    publications.id, 
+    publications.author_id, 
+    publications.content, 
+    publications.publishdate, 
+    publications.image_id, 
+    users.username, 
+    users.pictures, 
+    publication_image.image,
+    (SELECT COUNT(*) FROM comments WHERE comments.publication_id = publications.id) AS comment_count
 FROM publications
-JOIN users ON publications.author_id = users.id";
+JOIN users ON publications.author_id = users.id
+LEFT JOIN publication_image ON publications.image_id = publication_image.id
+ORDER BY publications.publishdate DESC";
 
 
 $stmt = $db->prepare($query);

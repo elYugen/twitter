@@ -15,7 +15,6 @@ try {
         PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
     ]);
     return $pdo;
-    echo $pdo;
 
 } catch (PDOException $e) {
     die("erreur de connexion : " . $e->getMessage());

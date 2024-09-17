@@ -1,34 +1,57 @@
-
+import axios from 'axios';
+import React, { useState } from 'react';
 
 function Login() {
-    return (
-        <>
-            <div className="loginbody">
-                <div className="wrapper">
-                    <form action="">
-                        <h1>Connexion</h1>
-                        <div className="input-box">
-                            <input type="text" placeholder="Adresse mail" />
-                            <i class='bx bxs-envelope'></i>
-                        </div>
-                        <div className="input-box">
-                            <input type="password" placeholder="Mot de passe"/>
-                            <i class='bx bxs-key' ></i>
-                        </div>
-                        <div className="remember-forgot">
-                            <label><input type="checkbox" />Se souvenir de moi</label>
-                            <a href="#">Mot de passe oublié</a>
-                        </div>
-                        <button type="submit" className="btn">Connexion</button>
+    const [username, setUsername] = useState('');
+    const [password, setPassword] = useState('');
 
-                        <div className="register-link">
-                            <p>Pas encore inscrit ? <a href="#">S'enregistrer</a></p>
-                        </div>
-                    </form>
-                </div>
+    const handleSubmit = async (event) => {
+        event.preventDefault();
+    
+        try {
+            const response = await axios.post('http://localhost/twitter/backend/userLogin.php', {
+                username: username,
+                password: password
+            }, {
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+    
+            console.log("réponse :", response.data);  
+            
+            if (!response.data.success) {
+                console.log("succès :", response.data.message); 
+                window.location.href = "/home";
+            } else {
+                console.log("erreur :", response.data.message);
+            }
+        } catch (error) {
+            console.log("Erreur Axios :", error);
+        }
+    };
+    
+
+    return (
+        <div className="loginbody">
+            <div className="wrapper">
+                <form onSubmit={handleSubmit}>
+                    <h1>Connexion</h1>
+                    <div className="input-box">
+                        <input type="text" placeholder="Pseudo" value={username} onChange={(e) => setUsername(e.target.value)} />
+                    </div>
+                    <div className="input-box">
+                        <input type="password" placeholder="Mot de passe" value={password} onChange={(e) => setPassword(e.target.value)} />
+                    </div>
+                    <div className="remember-forgot">
+                        <label><input type="checkbox" />Se souvenir de moi</label>
+                        <a href="#">Mot de passe oublié</a>
+                    </div>
+                    <button type="submit" className="btn">Connexion</button>
+                </form>
             </div>
-        </>
+        </div>
     );
 }
 
-export default Login
+export default Login;

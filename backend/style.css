@@ -1,0 +1,26 @@
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.success {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
+    background-color: #4CAF50;
+    height: 50px;
+    border-radius: 15px;
+}
+
+.error {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
+    background-color: #f44336;
+    height: 50px;
+    border-radius: 15px;
+}

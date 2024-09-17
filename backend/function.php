@@ -10,15 +10,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
 }
 
     // Récupère le fichier de connexion à la base de donnée 
-    try {
-        if(!@require_once('./config/config.php')) {
-            throw new Exception("Le fichier config.php n'a pas pu être inclus");
-        }
-        echo "Connexion à la base de donnée effectué";
-    } catch (Exception $e) {
-        echo "Erreur : " . $e->getMessage() . "<br/>";
-    }
+    require_once('./config/config.php');
 
-    include('session.php');
-    include('getAllPosts.php');
 ?>

@@ -6,18 +6,9 @@ import axios from "axios";
 import React, { useEffect, useState } from 'react';
 
 function Home() {
-    const [data, setData] = useState([]);
     const [session, setSession] = useState(null);
 
     useEffect(() => {
-        // publication
-        axios.get("http://localhost/twitter/backend/getAllPosts.php")
-        .then(response => {
-            setData(response.data);
-        })
-        .catch(error => {
-            console.log(error);
-        });
 
         // session utilisateur
         axios.get("http://localhost/twitter/backend/session.php", { withCredentials: true })
@@ -43,7 +34,7 @@ function Home() {
                             <img src={session.pictures} alt="Profil utilisateur" />
                         </div>
                     )}
-                    <Feed data={data} />
+                    <Feed />
                 </div>
                 <Sidebar />
             </div>

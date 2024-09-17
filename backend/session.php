@@ -1,4 +1,5 @@
 <?php
+require_once('function.php');
 session_start();
 
 header("Access-Control-Allow-Origin: http://localhost:5173"); 

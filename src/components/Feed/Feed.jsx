@@ -1,26 +1,34 @@
 import styles from './Feed.module.css';
 import { IoChatbubbleOutline } from "react-icons/io5";
 import axios from "axios";
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 
 function Feed() {
   const [data, setData] = useState([]);
 
+  const fetchPosts = useCallback(async () => {
+    try {
+      const response = await axios.get("http://localhost/twitter/backend/getAllPosts.php");
+      if (Array.isArray(response.data)) {
+        setData(response.data);
+        console.log("Publication a été mis à jour:", response.data);
+      } else {
+        console.error("La réponse n'est pas un tableau", response.data);
+      }
+    } catch (error) {
+      console.error("Erreur lors de la récupération des posts:", error);
+    }
+  }, []);
+
   useEffect(() => {
-    axios.get("http://localhost/twitter/backend/getAllPosts.php")
-    .then(response => {
-        if (Array.isArray(response.data)) {
-            setData(response.data); 
-            console.log(response.data);
-            
-        } else {
-            console.error("La réponse n'est pas un tableau", response.data);
-        }
-    })
-    .catch(error => {
-        console.log(error);
-    });
-}, []);
+    fetchPosts(); 
+
+    const intervalId = setInterval(() => {
+      fetchPosts(); 
+    }, 10000); // toutes les 10 secondes
+
+    return () => clearInterval(intervalId);
+  }, [fetchPosts]);
 
   return (
     <>
@@ -39,7 +47,7 @@ function Feed() {
               {post.image_id && <img src={post.image} alt="post" className={styles.postContentImage}/>}
             </div>
             <div className={styles.postIcon}>
-              <a href="#"><IoChatbubbleOutline /> {post.comment_count}</a> {/* Nombre de commentaires */}
+              <a href="#"><IoChatbubbleOutline /> {post.comment_count}</a>
             </div>
           </div>
         ))

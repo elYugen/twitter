@@ -25,7 +25,7 @@ function Feed() {
 
     const intervalId = setInterval(() => {
       fetchPosts(); 
-    }, 10000); // toutes les 10 secondes
+    }, 1000); // toutes les 1 secondes
 
     return () => clearInterval(intervalId);
   }, [fetchPosts]);

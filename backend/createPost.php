@@ -21,7 +21,6 @@ if (!isset($_SESSION['id'])) {
     exit;
 }
 
-// Récupérer le contenu du post via $_POST (et non file_get_contents)
 $content = isset($_POST['content']) ? $_POST['content'] : null;
 
 if (!$content) {
@@ -55,38 +54,47 @@ try {
 
     $post_id = $dbh->lastInsertId();
 
-    // Traiter l'image si elle est présente dans $_FILES
-    if (isset($_FILES['image']) && $_FILES['image']['error'] === UPLOAD_ERR_OK) {
-        $image_tmp = $_FILES['image']['tmp_name'];
-        $image_name = uniqid() . '.png';
-        $upload_path = $_SERVER['DOCUMENT_ROOT'] . '/public/upload/' . $image_name;
-        
-        if (move_uploaded_file($image_tmp, $upload_path)) {
-            $image_url = 'http://localhost:5173/public/upload/' . $image_name;
+    $image_url = null; // Pour stocker l'URL de l'image si elle est uploadée
+    if (isset($_FILES['image'])) {
+        if ($_FILES['image']['error'] === UPLOAD_ERR_OK) {
+            $image_tmp = $_FILES['image']['tmp_name'];
+            $image_name = uniqid() . '.png';
+            $upload_path = $_SERVER['DOCUMENT_ROOT'] . '/twitter/public/upload/' . $image_name;
 
-            $image_query = "INSERT INTO publication_image (publication_id, image, uploader_id) 
-                            VALUES (:publication_id, :image, :uploader_id)";
-            $image_stmt = $dbh->prepare($image_query);
-            $image_stmt->bindParam(':publication_id', $post_id);
-            $image_stmt->bindParam(':image', $image_url);
-            $image_stmt->bindParam(':uploader_id', $author_id);
+            error_log("Chemin de l'upload: " . $upload_path);
 
-            if (!$image_stmt->execute()) {
-                throw new Exception("Erreur lors de l'enregistrement de l'image");
-            }
+            if (move_uploaded_file($image_tmp, $upload_path)) {
+                $image_url = 'http://localhost:5173/public/upload/' . $image_name;
+                error_log("Image uploadée avec succès: " . $image_url);
 
-            $image_id = $dbh->lastInsertId();
+                $image_query = "INSERT INTO publication_image (publication_id, image, uploader_id) 
+                                VALUES (:publication_id, :image, :uploader_id)";
+                $image_stmt = $dbh->prepare($image_query);
+                $image_stmt->bindParam(':publication_id', $post_id);
+                $image_stmt->bindParam(':image', $image_url);
+                $image_stmt->bindParam(':uploader_id', $author_id);
 
-            $update_query = "UPDATE publications SET image_id = :image_id WHERE id = :post_id";
-            $update_stmt = $dbh->prepare($update_query);
-            $update_stmt->bindParam(':image_id', $image_id);
-            $update_stmt->bindParam(':post_id', $post_id);
+                if (!$image_stmt->execute()) {
+                    throw new Exception("Erreur lors de l'enregistrement de l'image");
+                }
 
-            if (!$update_stmt->execute()) {
-                throw new Exception("Erreur lors de la mise à jour de la publication avec l'ID de l'image");
+                $image_id = $dbh->lastInsertId();
+
+                $update_query = "UPDATE publications SET image_id = :image_id WHERE id = :post_id";
+                $update_stmt = $dbh->prepare($update_query);
+                $update_stmt->bindParam(':image_id', $image_id);
+                $update_stmt->bindParam(':post_id', $post_id);
+
+                if (!$update_stmt->execute()) {
+                    throw new Exception("Erreur lors de la mise à jour de la publication avec l'ID de l'image");
+                }
+            } else {
+                error_log("Erreur: impossible de déplacer l'image téléchargée");
+                throw new Exception("Erreur lors de l'enregistrement de l'image sur le serveur");
             }
         } else {
-            throw new Exception("Erreur lors de l'enregistrement de l'image sur le serveur");
+            error_log("Erreur d'upload de fichier: " . $_FILES['image']['error']);
+            throw new Exception("Erreur lors de l'upload de l'image");
         }
     }
 
@@ -96,7 +104,8 @@ try {
     echo json_encode([
         'success' => true, 
         'message' => 'Publication créée avec succès',
-        'post_id' => $post_id
+        'post_id' => $post_id,
+        'image_url' => $image_url // On retourne l'URL de l'image pour l'aperçu
     ]);
 
 } catch (Exception $e) {

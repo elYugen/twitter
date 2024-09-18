@@ -21,10 +21,10 @@ if (!isset($_SESSION['id'])) {
     exit;
 }
 
-$data = json_decode(file_get_contents("php://input"), true);
-error_log("Données reçues : " . print_r($data, true));
+// Récupérer le contenu du post via $_POST (et non file_get_contents)
+$content = isset($_POST['content']) ? $_POST['content'] : null;
 
-if (!isset($data['content'])) {
+if (!$content) {
     http_response_code(400);
     error_log("Erreur: contenu manquant");
     echo json_encode(['error' => 'Contenu manquant']);
@@ -32,7 +32,6 @@ if (!isset($data['content'])) {
 }
 
 $author_id = $_SESSION['id'];
-$content = $data['content'];
 
 try {
     $dbh = dbconnect();
@@ -56,13 +55,13 @@ try {
 
     $post_id = $dbh->lastInsertId();
 
-    // Traiter l'image si elle est présente
-    if (isset($data['image']) && !empty($data['image'])) {
-        $image_data = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $data['image']));
+    // Traiter l'image si elle est présente dans $_FILES
+    if (isset($_FILES['image']) && $_FILES['image']['error'] === UPLOAD_ERR_OK) {
+        $image_tmp = $_FILES['image']['tmp_name'];
         $image_name = uniqid() . '.png';
         $upload_path = $_SERVER['DOCUMENT_ROOT'] . '/public/upload/' . $image_name;
         
-        if (file_put_contents($upload_path, $image_data)) {
+        if (move_uploaded_file($image_tmp, $upload_path)) {
             $image_url = 'http://localhost:5173/public/upload/' . $image_name;
 
             $image_query = "INSERT INTO publication_image (publication_id, image, uploader_id) 

@@ -450,6 +450,39 @@ hr {
   color: #91949c;
 }
 
+.createPost {
+  display: flex;
+  border: 1px solid #56658d;
+  padding: 15px;
+  margin-bottom: 20px;
+  width: 80%;
+}
+
+.profilePicture {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-right: 15px;
+}
+
+.textareaContainer {
+  flex-grow: 1;
+}
+.textareaContainer textarea {
+  width: 100%;
+  border: none;
+  resize: vertical;
+  min-height: 50px;
+  padding: 5px;
+  margin-bottom: 10px;
+  background: none;
+  color: white;
+}
+.textareaContainer textarea:focus {
+  outline: none;
+}
+
 @media only screen and (max-width: 768px) {
   .commentBox {
     border: 1px solid #56658d;
@@ -458,6 +491,28 @@ hr {
     margin: 0 auto;
     width: 80%;
   }
+}
+.deleteButton {
+  background-color: transparent;
+  border: none;
+  color: inherit;
+  font: inherit;
+  padding: 0;
+  cursor: pointer;
+  margin-right: 10px;
+}
+
+.deleteButton:focus {
+  outline: none;
+}
+
+.deleteButton:before, .button:after {
+  content: none;
+}
+
+.postActions {
+  display: flex;
+  justify-content: space-between;
 }
 
 /*# sourceMappingURL=styles.css.map */

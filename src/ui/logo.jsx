@@ -1,6 +1,6 @@
 function Logo() {
     return(
-        <img src="wishtter.png" alt="Logo" />
+        <img src="/wishtter.png" alt="Logo" />
     )
 }
 

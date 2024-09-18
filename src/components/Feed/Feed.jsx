@@ -11,7 +11,7 @@ function Feed() {
       const response = await axios.get("http://localhost/twitter/backend/getAllPosts.php");
       if (Array.isArray(response.data)) {
         setData(response.data);
-        console.log("Publication a été mis à jour:", response.data);
+        // console.log("Publication a été mis à jour:", response.data); // affiche dans la console si les publications sont mise à jour
       } else {
         console.error("La réponse n'est pas un tableau", response.data);
       }
@@ -36,12 +36,13 @@ function Feed() {
         data.map((post, index) => (
           <div key={index} className={styles.postBox}>
             <div className={styles.postHeader}>
-              <img src={post.pictures} alt="user" className={styles.profilePicture}/>
+              <a href={`/profile/${post.author_id}`}><img src={post.pictures} alt="user" className={styles.profilePicture}/></a>
               <div className={styles.userInfo}>
-                <span className={styles.userInfoUsername}>{post.username}</span>
+              <a href={`/profile/${post.author_id}`}><span className={styles.userInfoUsername}>{post.username}</span></a>
                 <span className={styles.userInfoPublishedAt}>{post.publishdate}</span>
               </div>
             </div>
+            <a href={`/read/${post.id}`}>
             <div className={styles.postContent}>
               <p>{post.content}</p>
               {post.image_id && <img src={post.image} alt="post" className={styles.postContentImage}/>}
@@ -49,6 +50,7 @@ function Feed() {
             <div className={styles.postIcon}>
               <a href="#"><IoChatbubbleOutline /> {post.comment_count}</a>
             </div>
+            </a>
           </div>
         ))
       ) : (

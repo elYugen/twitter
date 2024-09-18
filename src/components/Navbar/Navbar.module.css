@@ -38,6 +38,10 @@
         color: #91949c;
     }
 
+    .navbarUserDataLogout {
+        color: rgb(138, 0, 0);
+    }
+
     p {
         margin: 0;
         line-height: 2;

@@ -1,3 +1,4 @@
+@charset "UTF-8";
 @import url("https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100..900;1,100..900&display=swap");
 .grid {
@@ -135,7 +136,7 @@ hr {
 
 /* Page de connexion & inscription ----------------- */
 .loginbody {
-  background-image: url("../../public/bg.png");
+  background-image: url("../../public/bg2.png");
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -145,7 +146,7 @@ hr {
   justify-content: center;
   align-items: center;
   box-sizing: border-box;
-  box-shadow: inset 0 0 100px rgba(0, 0, 0, 0.5);
+  box-shadow: inset 0 0 500px rgb(0, 0, 0);
 }
 
 .wrapper {
@@ -301,6 +302,162 @@ hr {
   font-weight: bold;
   border-bottom: 2px solid #56658d;
   padding-bottom: 5px;
+}
+
+/* Modal -------------- */
+.modal {
+  display: none; /* Par défaut, caché */
+  position: fixed;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0, 0, 0, 0.4);
+}
+
+.modal.open { /* Nouvelle classe pour afficher la modal */
+  display: block;
+}
+
+.modalContent {
+  background-color: #fefefe;
+  margin: 15% auto;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 80%;
+  max-width: 600px;
+}
+
+.close {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.close:hover,
+.close:focus {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+/* Publication sur la page profil */
+.postBox {
+  border: 1px solid #56658d;
+  padding: 15px;
+  max-width: 500px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.postHeader {
+  display: flex;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.profilePicture {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-right: 10px;
+}
+
+.userInfo {
+  display: flex;
+  flex-direction: column;
+}
+
+.userInfoUsername {
+  font-weight: bold;
+}
+
+.userInfoPublishedAt {
+  font-size: 0.8em;
+  color: #666;
+}
+
+.postContent {
+  width: 100%;
+}
+.postContent p {
+  margin-bottom: 10px;
+}
+
+.postContentImage {
+  max-width: 100%;
+  height: auto;
+  max-height: 500px;
+  object-fit: contain;
+}
+
+.postIcon {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin-top: 10px;
+  color: #91949c;
+}
+
+@media only screen and (max-width: 768px) {
+  .postBox {
+    border: 1px solid #56658d;
+    padding: 15px;
+    max-width: 500px;
+    margin: 0 auto;
+    width: 80%;
+  }
+}
+/* Commentaire sur la page de lecture d'une publication */
+.commentBox {
+  border: 1px solid #56658d;
+  padding: 15px;
+  max-width: 455px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.commentHeader {
+  display: flex;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.commentContent {
+  width: 100%;
+}
+.commentContent p {
+  margin-bottom: 10px;
+}
+
+.commentContentImage {
+  max-width: 100%;
+  height: auto;
+  max-height: 500px;
+  object-fit: contain;
+}
+
+.commentIcon {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin-top: 10px;
+  color: #91949c;
+}
+
+@media only screen and (max-width: 768px) {
+  .commentBox {
+    border: 1px solid #56658d;
+    padding: 15px;
+    max-width: 500px;
+    margin: 0 auto;
+    width: 80%;
+  }
 }
 
 /*# sourceMappingURL=styles.css.map */

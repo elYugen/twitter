@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import styles from './Navbar.module.css';
 import { IoMdHome } from "react-icons/io";
 import { FaDev } from "react-icons/fa";
@@ -6,34 +6,76 @@ import { IoGameController } from "react-icons/io5";
 import { LuJapaneseYen } from "react-icons/lu";
 import { GiRaven } from "react-icons/gi";
 import { FaMagnifyingGlass } from "react-icons/fa6";
-import Logo from "../../ui/logo"
+import Logo from "../../ui/logo";
+import axios from "axios";
+import ModalCreatePost from "../ModalCreatePost/ModalCreatePost";
 
 function Navbar () {
-  return(
+  const [session, setSession] = useState(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  useEffect(() => {
+    axios.get("http://localhost/twitter/backend/session.php", { withCredentials: true })
+      .then(response => {
+        setSession(response.data);
+      })
+      .catch(error => {
+        console.log("Erreur lors de la récupération de la session:", error);
+      });
+  }, []);
+
+  const handleLogout = () => {
+    axios.post("http://localhost/twitter/backend/userLogout.php", {}, { withCredentials: true })
+      .then(response => {
+        if (response.data.success) {
+          setSession(null);
+        }
+      })
+      .catch(error => {
+        console.log("Erreur lors de la déconnexion:", error);
+      });
+  };
+
+  const openModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
+
+  return (
     <>
       <div className={styles.navbar}>
         <div className={styles.navbarLogo}>
-          <Logo/>
+          <Logo />
         </div>
-          <ul className={styles.navbarItem}>
-            <li className={styles.navbarLink}><a href="/"><IoMdHome /> Accueil</a></li>
-            <li className={styles.navbarLink}><a href="#"><FaMagnifyingGlass /> Explorer</a></li>
-            {/* <li className={styles.navbarLink}><a href="#"><FaDev /> Dév</a></li>
-            <li className={styles.navbarLink}><a href="#"><LuJapaneseYen /> Anime</a></li>
-            <li className={styles.navbarLink}><a href="#"><IoGameController /> Games</a></li> */}
-            <div className={styles.navbarLinkProfil}> {/*Bouton profil qui sera invisible en desktop mais visible en mobile*/}
-              <li className={styles.navbarLink}><a href="profile"><GiRaven /> Profil</a></li>
-            </div>
-            <button type="submit" name="login" style={{fontSize: "20px"}} className="button">Poster</button>
-            <div className={styles.navbarUser}>
-                <img src="https://i.pravatar.cc/300" alt="user" />
+        <ul className={styles.navbarItem}>
+          <li className={styles.navbarLink}><a href="/"><IoMdHome /> Accueil</a></li>
+          <li className={styles.navbarLink}><a href="#"><FaMagnifyingGlass /> Explorer</a></li>
+          <div className={styles.navbarLinkProfil}>
+            <li className={styles.navbarLink}><a href="profile"><GiRaven /> Profil</a></li>
+          </div>
+          {session ? (
+            <>
+              <button onClick={openModal} className="button" style={{ fontSize: "20px" }}>Poster</button>
+              <div className={styles.navbarUser}>
+                <a href={`/profile/${session.id}`}><img src={session.pictures} alt="user" /></a>
                 <div className={styles.navbarUserData}>
-                    <p>Username</p>
-                    <p className={styles.navbarUserDataMail}>Mail Adress</p>
+                  <p>{session.username}</p>
+                  <p className={styles.navbarUserDataMail}>{session.email}</p>
+                  <p className={styles.navbarUserDataLogout} onClick={handleLogout}>Déconnexion</p>
                 </div>
-            </div>
-          </ul>
-        </div>
+              </div>
+            </>
+          ) : (
+            <button onClick={() => window.location.href = '/login'} className="button" style={{ fontSize: "20px" }}>
+              Rejoindre Wishtter
+            </button>
+          )}
+        </ul>
+      </div>
+      <ModalCreatePost isOpen={isModalOpen} onClose={closeModal} />
     </>
   );
 }

@@ -26,13 +26,8 @@ function Home() {
             <div className="layout">
                 <Navbar /> 
                 <div className="container">
-                    <CreatePost />
                     {session && (
-                        <div className="session-info">
-                            <p>Utilisateur : {session.username}</p>
-                            <p>Email : {session.email}</p>
-                            <img src={session.pictures} alt="Profil utilisateur" />
-                        </div>
+                        <CreatePost />
                     )}
                     <Feed />
                 </div>

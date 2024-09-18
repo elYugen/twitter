@@ -1,24 +1,16 @@
 import React from "react";
 import styles from "./ModalCreatePost.module.css";
+import CreatePost from "../CreatePost/CreatePost";
 
-function ModalCreatePost() {
+function ModalCreatePost({ isOpen, onClose }) {
   return (
-    <>
-      <button id="openModal">ouvrir</button>
-
-      <div id="postModal" class="modal">
-        <div class="modalContent">
-          <span class="close">&times;</span>
-          <div class="postBox">
-            <img src="chemin/vers/photo-profil.jpg" alt="Photo de profil" class="profilePicture"/>
-            <div class="content">
-              <textarea placeholder="Quoi de neuf docteur ?"></textarea>
-              <hr />
-            </div>
-          </div>
-        </div>
+    <div className={`${styles.modal} ${isOpen ? styles.open : ''}`}>
+      <div className={styles.modalContent}>
+        <span className={styles.close} onClick={onClose}>&times;</span>
+        <CreatePost />
       </div>
-    </>
+    </div>
   );
 }
+
 export default ModalCreatePost;

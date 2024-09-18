@@ -22,10 +22,11 @@ if (isset($data['username']) && isset($data['password'])) {
 
         if ($user) {
             if (password_verify($password, $user['password'])) {
-
+                $_SESSION['id'] = $user['id'];
                 $_SESSION['username'] = $user['username'];
                 $_SESSION['email'] = $user['email'];
                 $_SESSION['pictures'] = $user['pictures'];
+                $_SESSION['created_at'] = $user['created_at'];
 
 
                 echo json_encode([

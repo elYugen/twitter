@@ -35,25 +35,25 @@ $db = dbconnect();
 try {
     $db->beginTransaction();
 
-    // Supprimer les commentaires liés
+    // Suppr les commentaires lié au post
     $query = "DELETE FROM comments WHERE publication_id = :post_id";
     $stmt = $db->prepare($query);
     $stmt->bindParam(':post_id', $post_id, PDO::PARAM_INT);
     $stmt->execute();
 
-    // Supprimer les hashtags liés
+    // Suppr les hashtag lié au post
     $query = "DELETE FROM publication_hashtags WHERE publication_id = :post_id";
     $stmt = $db->prepare($query);
     $stmt->bindParam(':post_id', $post_id, PDO::PARAM_INT);
     $stmt->execute();
 
-    // Supprimer l'image liée
+    // Suppr l'image lié au post
     $query = "DELETE FROM publication_image WHERE publication_id = :post_id";
     $stmt = $db->prepare($query);
     $stmt->bindParam(':post_id', $post_id, PDO::PARAM_INT);
     $stmt->execute();
 
-    // Enfin, supprimer la publication
+    // Suppr la publication
     $query = "DELETE FROM publications WHERE id = :post_id";
     $stmt = $db->prepare($query);
     $stmt->bindParam(':post_id', $post_id, PDO::PARAM_INT);

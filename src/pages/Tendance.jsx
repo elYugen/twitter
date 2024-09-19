@@ -53,7 +53,7 @@ const HashtagPosts = () => {
                 ) : (
                     <ul>
                         {posts.map(post => (
-                            <div key={post.id} className={styles.postBox}>
+                            <div key={post.id} className="postBox">
                                 <div className={styles.postHeader}>
                                     <a href={`/profile/${post.author_id}`}>
                                         <img src={post.pictures || '/default-avatar.png'} alt={post.username} className={styles.profilePicture} />
@@ -67,9 +67,7 @@ const HashtagPosts = () => {
                                 </div>
                                 <div className={styles.postContent}>
                                     <p>{post.content}</p>
-                                    {post.image && (
-                                        <img src={post.image} alt="Publication" className={styles.postContentImage} />
-                                    )}
+                                    {post.image_id && <img src={post.image} alt="post" className={styles.postContentImage}/>}
                                 </div>
                                 <div className={styles.postIcon}>
                                     <span><IoChatbubbleOutline /> {post.comment_count || 0}</span>

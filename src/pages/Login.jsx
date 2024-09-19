@@ -48,6 +48,7 @@ function Login() {
                         <a href="#">Mot de passe oublié</a>
                     </div>
                     <button type="submit" className="btn">Connexion</button>
+                    <a href="/register"><p>Pas encore inscrit ?</p></a>
                 </form>
             </div>
         </div>

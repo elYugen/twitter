@@ -8,13 +8,14 @@ import NoPage from "./pages/404"
 import Read from "./pages/Read"
 import Profile from "./pages/Profile"
 import Tendance from "./pages/Tendance";
+import Explore from "./pages/Explore"
 function App() {
 
   return (
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Layout />}>
-          <Route index element={<Home />} />
+          <Route index element={<Login />} />
           <Route path="home" element={<Home/>}/>
           <Route path="login" element={<Login />} />
           <Route path="register" element={<Register />} />
@@ -24,6 +25,7 @@ function App() {
           <Route path="read/:id" element={<Read />} />
           <Route path="profile" element={<Profile />} />
           <Route path="profile/:id" element={<Profile />} />
+          <Route path="explore" element={<Explore />} />
           <Route path="*" element={<NoPage />} />
         </Route>
       </Routes>

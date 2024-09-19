@@ -51,13 +51,14 @@ function Navbar () {
           <Logo />
         </div>
         <ul className={styles.navbarItem}>
-          <li className={styles.navbarLink}><a href="/"><IoMdHome /> Accueil</a></li>
-          <li className={styles.navbarLink}><a href="#"><FaMagnifyingGlass /> Explorer</a></li>
-          <div className={styles.navbarLinkProfil}>
-            <li className={styles.navbarLink}><a href="profile"><GiRaven /> Profil</a></li>
-          </div>
+          <li className={styles.navbarLink}><a href="/home"><IoMdHome /> Accueil</a></li>
+          <li className={styles.navbarLink}><a href="/explore"><FaMagnifyingGlass /> Explorer</a></li>
           {session ? (
             <>
+          <div className={styles.navbarLinkProfil}>
+            <li className={styles.navbarLink}><a href={`/profile/${session.id}`}><GiRaven /> Profil</a></li>
+          </div>
+      
               <button onClick={openModal} className="button" style={{ fontSize: "20px" }}>Poster</button>
               <div className={styles.navbarUser}>
                 <a href={`/profile/${session.id}`}><img src={session.pictures} alt="user" /></a>

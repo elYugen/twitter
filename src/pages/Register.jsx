@@ -29,7 +29,7 @@ function Login() {
             
             if (response.data.success) {
                 console.log("Succès :", response.data.message);
-                navigate('/home');
+                navigate('/login');
             } else {
                 setError(response.data.error || "une erreur est survenue");
             }

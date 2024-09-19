@@ -184,7 +184,9 @@ hr {
     border: 1px solid #56658d;
     overflow: hidden;
     width: 100%;
+    max-width: 1045px;
     margin: 0 auto;
+    margin-bottom: 10px;
   }
   
   .banner {
@@ -349,6 +351,14 @@ hr {
         margin: 0 auto;
         width: 80%;
     }
+
+    .profileBox {
+        border: 1px solid #56658d;
+        overflow: hidden;
+        width: 87.5%;
+        margin: 0 auto;
+        margin-bottom: 5px;
+      }
 }
 
 

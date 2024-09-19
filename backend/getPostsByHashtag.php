@@ -18,12 +18,14 @@ if (!$hashtag) {
 try {
     $dbh = dbconnect();
 
-    $query = "SELECT publications.*, users.username, users.pictures
+    $query = "SELECT publications.*, users.username, users.pictures, publication_image.image
 FROM publications
 JOIN publication_hashtags ON publications.id = publication_hashtags.publication_id
 JOIN hashtags ON hashtags.id = publication_hashtags.hashtag_id
 JOIN users ON publications.author_id = users.id
+LEFT JOIN publication_image ON publications.image_id = publication_image.id
 WHERE hashtags.tag = :hashtag";
+    
     $stmt = $dbh->prepare($query);
     $stmt->bindParam(':hashtag', $hashtag);
     $stmt->execute();
@@ -37,3 +39,4 @@ WHERE hashtags.tag = :hashtag";
     http_response_code(500);
     echo json_encode(['error' => 'Erreur serveur: ' . $e->getMessage()]);
 }
+?>

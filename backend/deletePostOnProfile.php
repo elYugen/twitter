@@ -32,17 +32,42 @@ $post_id = $data['post_id'];
 
 $db = dbconnect();
 
-$query = "DELETE FROM publications WHERE id = :post_id";
-$stmt = $db->prepare($query);
-$stmt->bindParam(':post_id', $post_id, PDO::PARAM_INT);
 try {
+    $db->beginTransaction();
+
+    // Supprimer les commentaires liés
+    $query = "DELETE FROM comments WHERE publication_id = :post_id";
+    $stmt = $db->prepare($query);
+    $stmt->bindParam(':post_id', $post_id, PDO::PARAM_INT);
     $stmt->execute();
+
+    // Supprimer les hashtags liés
+    $query = "DELETE FROM publication_hashtags WHERE publication_id = :post_id";
+    $stmt = $db->prepare($query);
+    $stmt->bindParam(':post_id', $post_id, PDO::PARAM_INT);
+    $stmt->execute();
+
+    // Supprimer l'image liée
+    $query = "DELETE FROM publication_image WHERE publication_id = :post_id";
+    $stmt = $db->prepare($query);
+    $stmt->bindParam(':post_id', $post_id, PDO::PARAM_INT);
+    $stmt->execute();
+
+    // Enfin, supprimer la publication
+    $query = "DELETE FROM publications WHERE id = :post_id";
+    $stmt = $db->prepare($query);
+    $stmt->bindParam(':post_id', $post_id, PDO::PARAM_INT);
+    $stmt->execute();
+
+    $db->commit();
+
     if ($stmt->rowCount() > 0) {
         echo json_encode(['success' => true, 'message' => 'Publication supprimée avec succès']);
     } else {
         echo json_encode(['success' => false, 'message' => 'Aucune publication trouvée avec cet ID']);
     }
 } catch (PDOException $e) {
+    $db->rollBack();
     http_response_code(500);
     echo json_encode(['error' => 'Erreur lors de la suppression de la publication', 'details' => $e->getMessage()]);
 }

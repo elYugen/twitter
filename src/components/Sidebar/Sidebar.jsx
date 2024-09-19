@@ -7,13 +7,13 @@ import { LuJapaneseYen } from "react-icons/lu";
 import styles from './Sidebar.module.css';
 
 function Sidebar () {
-  const [categories, setCategories] = useState([]);
+  const [hashtag, setHashtag] = useState([]);
   
   useEffect(() => {
-    // récupérations des catégories
-    axios.get("http://localhost/twitter/backend/getAllCategories.php", { withCredentials: true })
+    // récupérations des hashtag
+    axios.get("http://localhost/twitter/backend/getAllHashtag.php", { withCredentials: true })
     .then(response => {
-        setCategories(response.data);
+        setHashtag(response.data);
     })
     .catch(error => {
         console.log("Erreur lors de la récupération des catégoris:", error);
@@ -27,15 +27,15 @@ function Sidebar () {
         <input type="text" placeholder="Rechercher une publication..." />
       </div>
         <div className={styles.categoriesBox}>
-          <h2 className={styles.categoriesTitle}>Tendance</h2>
-          {categories.length > 0 ? (
-            categories.map((categ) => (
-              <div key={categ.id} className={styles.categoryItem}>
-                <a href="#">{categ.nom}</a>
+          <h2 className={styles.categoriesTitle}>Tendances :</h2>
+          {hashtag.length > 0 ? (
+            hashtag.map((hash) => (
+              <div key={hash.id} className={styles.categoryItem}>
+                <a href={`/tendance/${hash.tag}`}>#{hash.tag}</a>
               </div>
             ))
           ) : (
-            <div className={styles.categoryItem}>Aucune catégorie trouvée</div>
+            <div className={styles.categoryItem}>Aucun hashtag trouvée</div>
           )}
         </div>
       <br />

@@ -515,4 +515,40 @@ hr {
   justify-content: space-between;
 }
 
+.imagePreview {
+  margin-top: 10px;
+  position: relative;
+}
+
+.imagePreview img {
+  max-width: 100%;
+  max-height: 300px;
+  display: block;
+}
+
+.imagePreview button {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background-color: red;
+  color: white;
+  border: none;
+  padding: 5px;
+  cursor: pointer;
+}
+
+.uploadedImageContainer {
+  margin-top: 20px;
+  text-align: center;
+}
+
+.uploadedImageContainer h3 {
+  margin-bottom: 10px;
+}
+
+.uploadedImage {
+  max-width: 100%;
+  border-radius: 10px;
+}
+
 /*# sourceMappingURL=styles.css.map */

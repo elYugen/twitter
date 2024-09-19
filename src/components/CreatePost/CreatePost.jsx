@@ -1,5 +1,5 @@
 import axios from "axios";
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import styles from './CreatePost.module.css';
 import { CiImageOn } from "react-icons/ci";
 import { MdOutlineGifBox } from "react-icons/md";
@@ -11,7 +11,8 @@ function CreatePost() {
   const [currentTime, setCurrentTime] = useState(new Date());
   const [image, setImage] = useState(null);
   const [previewImage, setPreviewImage] = useState(null);
-  const [uploading, setUploading] = useState(false); // Pour suivre l'état de l'upload
+  const [uploading, setUploading] = useState(false);
+  const fileInputRef = useRef(null);
 
   useEffect(() => {
     // Récupérer la session
@@ -30,6 +31,10 @@ function CreatePost() {
 
     return () => clearInterval(timer);
   }, []);
+
+  const handleIconClick = () => {
+    fileInputRef.current.click();
+  };
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];
@@ -118,17 +123,8 @@ function CreatePost() {
         <hr />
         <div className={styles.createPostOption}>
           <div className={styles.createPostOptionAll}>
-            <label htmlFor="fileInput" className={styles.fileInputLabel}>
-              <CiImageOn />
-            </label>
-            <input
-              id="fileInput"
-              type="file"
-              accept="image/*"
-              onChange={handleImageChange}
-              style={{ display: 'flex' }}
-            />
-            <a href="#"><MdOutlineGifBox /></a>
+            <CiImageOn onClick={handleIconClick} className={styles.fileInputIcon} />
+            <input ref={fileInputRef} type="file" accept="image/*" onChange={handleImageChange} style={{ display: 'none' }}/>
           </div>
           <button type="submit" style={{fontSize: "20px"}} className="button" disabled={uploading}>
             {uploading ? 'Uploading...' : 'Poster'}

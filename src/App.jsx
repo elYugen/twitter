@@ -7,6 +7,7 @@ import Layout from "./pages/Layout";
 import NoPage from "./pages/404"
 import Read from "./pages/Read"
 import Profile from "./pages/Profile"
+import Tendance from "./pages/Tendance";
 function App() {
 
   return (
@@ -17,6 +18,8 @@ function App() {
           <Route path="home" element={<Home/>}/>
           <Route path="login" element={<Login />} />
           <Route path="register" element={<Register />} />
+          <Route path="tendance" element={<Tendance />} />
+          <Route path="tendance/:hashtag" element={<Tendance />} />
           <Route path="read" element={<Read />} />
           <Route path="read/:id" element={<Read />} />
           <Route path="profile" element={<Profile />} />

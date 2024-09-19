@@ -32,6 +32,12 @@ if (!$content) {
 
 $author_id = $_SESSION['id'];
 
+// Fonction pour extraire les hashtags
+function extractHashtags($content) {
+    preg_match_all('/#(\w+)/', $content, $matches);
+    return $matches[1]; // Retourne uniquement les hashtags sans le symbole #
+}
+
 try {
     $dbh = dbconnect();
     if (!$dbh) {
@@ -42,6 +48,7 @@ try {
 
     $dbh->beginTransaction();
 
+    // Insertion de la publication
     $query = "INSERT INTO publications (author_id, content, publishdate) 
               VALUES (:author_id, :content, NOW())";
     $stmt = $dbh->prepare($query);
@@ -54,48 +61,80 @@ try {
 
     $post_id = $dbh->lastInsertId();
 
-    $image_url = null; // Pour stocker l'URL de l'image si elle est uploadée
+    // Gestion de l'upload d'image (déjà dans votre code)
+    $image_url = null;
+    $max_file_size = 10 * 1024 * 1024;
+    $allowed_extensions = ['png', 'jpg', 'jpeg', 'webp', 'gif'];
+
     if (isset($_FILES['image'])) {
+        if ($_FILES['image']['size'] > $max_file_size) {
+            throw new Exception("Le fichier dépasse les 10 Mo");
+        }
+
+        $image_info = pathinfo($_FILES['image']['name']);
+        $image_extension = strtolower($image_info['extension']);
+
+        if (!in_array($image_extension, $allowed_extensions)) {
+            throw new Exception("Fichier accepté : png, jpg, jpeg, webp, gif");
+        }
+
         if ($_FILES['image']['error'] === UPLOAD_ERR_OK) {
             $image_tmp = $_FILES['image']['tmp_name'];
-            $image_name = uniqid() . '.png';
+            $image_name = uniqid() . '.' . $image_extension;
             $upload_path = $_SERVER['DOCUMENT_ROOT'] . '/twitter/public/upload/' . $image_name;
-
-            error_log("Chemin de l'upload: " . $upload_path);
 
             if (move_uploaded_file($image_tmp, $upload_path)) {
                 $image_url = 'http://localhost:5173/public/upload/' . $image_name;
-                error_log("Image uploadée avec succès: " . $image_url);
 
+                // Insertion de l'image dans la base de données
                 $image_query = "INSERT INTO publication_image (publication_id, image, uploader_id) 
                                 VALUES (:publication_id, :image, :uploader_id)";
                 $image_stmt = $dbh->prepare($image_query);
                 $image_stmt->bindParam(':publication_id', $post_id);
                 $image_stmt->bindParam(':image', $image_url);
                 $image_stmt->bindParam(':uploader_id', $author_id);
-
-                if (!$image_stmt->execute()) {
-                    throw new Exception("Erreur lors de l'enregistrement de l'image");
-                }
-
+                $image_stmt->execute();
+                
                 $image_id = $dbh->lastInsertId();
 
+                // Mise à jour de la publication avec l'image
                 $update_query = "UPDATE publications SET image_id = :image_id WHERE id = :post_id";
                 $update_stmt = $dbh->prepare($update_query);
                 $update_stmt->bindParam(':image_id', $image_id);
                 $update_stmt->bindParam(':post_id', $post_id);
-
-                if (!$update_stmt->execute()) {
-                    throw new Exception("Erreur lors de la mise à jour de la publication avec l'ID de l'image");
-                }
-            } else {
-                error_log("Erreur: impossible de déplacer l'image téléchargée");
-                throw new Exception("Erreur lors de l'enregistrement de l'image sur le serveur");
+                $update_stmt->execute();
             }
-        } else {
-            error_log("Erreur d'upload de fichier: " . $_FILES['image']['error']);
-            throw new Exception("Erreur lors de l'upload de l'image");
         }
+    }
+
+    // Extraction des hashtags
+    $hashtags = extractHashtags($content);
+
+    // Insertion des hashtags dans la base de données
+    foreach ($hashtags as $tag) {
+        // Vérification si le hashtag existe déjà
+        $hashtag_query = "SELECT id FROM hashtags WHERE tag = :tag";
+        $hashtag_stmt = $dbh->prepare($hashtag_query);
+        $hashtag_stmt->bindParam(':tag', $tag);
+        $hashtag_stmt->execute();
+        $hashtag_id = $hashtag_stmt->fetchColumn();
+
+        // Si le hashtag n'existe pas, l'ajouter
+        if (!$hashtag_id) {
+            $insert_hashtag_query = "INSERT INTO hashtags (tag) VALUES (:tag)";
+            $insert_hashtag_stmt = $dbh->prepare($insert_hashtag_query);
+            $insert_hashtag_stmt->bindParam(':tag', $tag);
+            $insert_hashtag_stmt->execute();
+            $hashtag_id = $dbh->lastInsertId();
+        }
+
+        // Lier le hashtag à la publication
+        $link_query = "INSERT INTO publication_hashtags (publication_id, hashtag_id) 
+                       VALUES (:publication_id, :hashtag_id)";
+        $link_stmt = $dbh->prepare($link_query);
+        $link_stmt->bindParam(':publication_id', $post_id);
+        $link_stmt->bindParam(':hashtag_id', $hashtag_id);
+        $link_stmt->execute();
     }
 
     $dbh->commit();
@@ -105,7 +144,7 @@ try {
         'success' => true, 
         'message' => 'Publication créée avec succès',
         'post_id' => $post_id,
-        'image_url' => $image_url // On retourne l'URL de l'image pour l'aperçu
+        'image_url' => $image_url
     ]);
 
 } catch (Exception $e) {

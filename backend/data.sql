@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : localhost:3306
--- Généré le : jeu. 19 sep. 2024 à 11:55
+-- Généré le : jeu. 19 sep. 2024 à 14:31
 -- Version du serveur : 8.0.30
 -- Version de PHP : 8.1.10
 

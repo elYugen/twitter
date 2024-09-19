@@ -1,5 +1,5 @@
 function defaultPageTitle() {
-    document.title = "Touitté";
+    document.title = "Wishtter : LE fameux Twitter du pauvre";
 }
 
 export default defaultPageTitle;

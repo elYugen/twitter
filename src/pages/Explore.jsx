@@ -21,8 +21,9 @@ function Explore() {
         <div className="layout">
             <Navbar />
             <div className="container">
-            <div className={styles.categoriesBox}>
+            <div className="postBox">
           <h2 className={styles.categoriesTitle}>Tendances :</h2>
+          <hr />
           {hashtag.length > 0 ? (
             hashtag.map((hash) => (
               <div key={hash.id} className={styles.categoryItem}>

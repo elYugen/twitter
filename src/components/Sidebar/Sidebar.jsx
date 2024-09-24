@@ -1,33 +1,52 @@
 import axios from "axios";
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
-import { FaDev } from "react-icons/fa";
-import { IoGameController } from "react-icons/io5";
-import { LuJapaneseYen } from "react-icons/lu";
 import styles from './Sidebar.module.css';
 
-function Sidebar () {
-  const [hashtag, setHashtag] = useState([]);
+function Sidebar() {
+  const [hashtag, setHashtags] = useState([]);
+  const [searchTerm, setSearchTerm] = useState('');
   
   useEffect(() => {
-    // récupérations des hashtag
-    axios.get("http://localhost/twitter/backend/getAllHashtag.php", { withCredentials: true })
-    .then(response => {
-        setHashtag(response.data);
-    })
-    .catch(error => {
-        console.log("Erreur lors de la récupération des catégoris:", error);
-    });
+    fetchAllHashtags();
   }, []);
+
+  const fetchAllHashtags = () => {
+    axios.get("http://localhost/twitter/backend/getAllHashtag.php", { withCredentials: true })
+      .then(response => {
+        setHashtags(response.data);
+      })
+      .catch(error => {
+        console.log("Erreur lors de la récupération des hashtags:", error);
+      });
+  };
+
+  const handleSearch = (event) => {
+    const term = event.target.value;
+    setSearchTerm(term);
+
+    if (term.length > 0) {
+      axios.get(`http://localhost/twitter/backend/searchHashtag.php?term=${term}`, { withCredentials: true })
+        .then(response => {
+          setHashtags(response.data);
+        })
+        .catch(error => {
+          console.log("Erreur lors de la recherche des hashtags:", error);
+        });
+    } else {
+      fetchAllHashtags();
+    }
+  };
 
   return(
     <>
     <div className={styles.sidebar}>
       <div className={styles.searchArticle}>
-        <input type="text" placeholder="Rechercher une publication..." />
+        <input type="text" value={searchTerm} onChange={handleSearch} placeholder="Rechercher un hashtag..." />
       </div>
         <div className={styles.categoriesBox}>
-          <h2 className={styles.categoriesTitle}>Tendances :</h2>
+        <h2 className={styles.categoriesTitle}>
+          {searchTerm ? "Résultat :" : "Tendances :"}
+        </h2>
           {hashtag.length > 0 ? (
             hashtag.map((hash) => (
               <div key={hash.id} className={styles.categoryItem}>

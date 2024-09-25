@@ -109,11 +109,7 @@ function CreatePost() {
     <div className={styles.createPost}>
       <img src={session.pictures} alt="user" className={styles.profilePicture} />
       <form onSubmit={handleSubmit} className={styles.textareaContainer}>
-        <textarea 
-          placeholder='Quoi de neuf docteur ?'
-          value={content}
-          onChange={(e) => setContent(e.target.value)}
-        ></textarea>
+        <textarea  placeholder='Quoi de neuf docteur ?' value={content} onChange={(e) => setContent(e.target.value)}></textarea>
         {previewImage && (
           <div className={styles.imagePreview}>
             <img src={previewImage} alt="Preview" />

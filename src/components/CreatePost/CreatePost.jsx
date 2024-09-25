@@ -59,7 +59,7 @@ function CreatePost() {
       return;
     }
 
-    setUploading(true); // Marquer l'upload comme en cours
+    setUploading(true); // marque l'upload comme en cours
 
     try {
       const formData = new FormData();
@@ -108,7 +108,7 @@ function CreatePost() {
   return (
     <div className={styles.createPost}>
       <img src={session.pictures} alt="user" className={styles.profilePicture} />
-      <form onSubmit={handleSubmit} className={styles.textareaContainer}>
+      <form onSubmit={handleSubmit} className={styles.textareaContainer} enctype="multipart/form-data">
         <textarea  placeholder='Quoi de neuf docteur ?' value={content} onChange={(e) => setContent(e.target.value)}></textarea>
         {previewImage && (
           <div className={styles.imagePreview}>

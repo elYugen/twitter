@@ -2,7 +2,7 @@
 
 namespace App;
 
-// Gestion des Cors
+// ------------- Gestion des Cors ------------
 header('Content-Type: application/json');
 header('Access-Control-Allow-Origin: http://localhost:5173');
 header('Access-Control-Allow-Credentials: true');
@@ -15,13 +15,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
     exit(0);
 }
 
-require_once __DIR__ . '/vendor/autoloadALaMain.php';
+use App\core\Router;
+
 
 // -------- Dépendences autoloader ----------
+require_once __DIR__ . '/vendor/autoload.php';
+
 use App\controller\UserController;
 use App\controller\SessionController;
-
-use App\core\Router;
 
 
 // --------- Router -----------
@@ -30,13 +31,12 @@ $router = new Router();
 
 
 // Liste des routes Utilisateur
-$router->addRoute('/user/{id}', UserController::class, 'GetUserData');
-$router->addRoute('/user/logout', UserController::class, 'UserLogout');
-$router->addRoute('/user/login', UserController::class, 'UserLogin');
-$router->addRoute('/user/register', UserController::class, 'UserRegister');
+$router->addRoute('POST', '/user/register', UserController::class, 'UserRegister');
+$router->addRoute('POST', '/user/login', UserController::class, 'UserLogin');
+$router->addRoute('POST', '/user/logout', UserController::class, 'UserLogout');
 
 // Liste des routes Session
-$router->addRoute('/session', SessionController::class, 'isSession');
+$router->addRoute('GET', '/session', SessionController::class, 'isSession');
 
 // Liste des routes Publications
 
@@ -52,8 +52,8 @@ $router->addRoute('/session', SessionController::class, 'isSession');
 
 // --------- AutoLoader ---------
 
-// use App\services\ImageUpload;
+// use App\services\ImageUploadService;
 
-// $createPost = new ImageUpload;
+// $createPost = new ImageUploadService;
 
 // var_dump($createPost);

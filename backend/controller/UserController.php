@@ -32,9 +32,14 @@ class UserController {
 
     public function UserRegister() {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            //récup les data json envoyé via la requete
             $data = json_decode(file_get_contents('php://input'), true);
 
+            //verif si les data obligatoires sont présentes
             if (isset($data['username']) && isset($data['password'])) {
+                error_log("data reçu : " .print_r($data,true)); //debogage
+
+                //verif si user existe deja
                 foreach ($this->users as $user) {
                     if ($user['username'] === $data['username']) {
                         http_response_code(409); 
@@ -42,10 +47,16 @@ class UserController {
                         return;
                     }
                 }
+
+                //ajoute user au tableau
                 $this->users[] = [
                     'username' => $data['username'],
                     'password' => password_hash($data['password'], PASSWORD_DEFAULT)
                 ];
+
+                error_log("liste des users " .print_r($this->users, true)); //débogage
+
+                //renvoie réponse succès
                 http_response_code(201); 
                 header('Content-Type: application/json'); 
                 echo json_encode(['success' => true, 'message' => 'Inscription réussie.']);
@@ -59,6 +70,8 @@ class UserController {
             header('Content-Type: application/json');
             echo json_encode(['error' => 'Méthode non autorisée.']);
         }
+
+        return;
     }
 
     public function UserLogout() {

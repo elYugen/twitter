@@ -5,7 +5,7 @@ namespace App\services;
 use Exception;
 use App\vendor\Dbconnect;
 
-class ImageUpload {
+class ImageUploadService {
 
     private $db;
 

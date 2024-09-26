@@ -1,5 +1,9 @@
 <?php
 
+
+namespace App\model;
+use PDO;
+
 require_once('../function.php');
 
 class GetUserData {

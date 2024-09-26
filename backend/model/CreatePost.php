@@ -1,5 +1,9 @@
 <?php
 
+// namespace App\model\CreatePost;
+// use PDO; 
+// use Exception;
+
 require_once('../function.php');
 require_once('../services/ImageUpload.php');
 require_once('../services/ExtractHashtag.php');

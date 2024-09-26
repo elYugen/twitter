@@ -1,5 +1,7 @@
 <?php 
 
+namespace App\services;
+
 class ExtractHashtag {
     private $db;
 

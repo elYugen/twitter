@@ -16,7 +16,7 @@ const HashtagPosts = () => {
         const fetchPosts = async () => {
             try {
                 setLoading(true);
-                const response = await axios.get(`http://localhost/twitter/backend/getPostsByHashtag.php?hashtag=${encodeURIComponent(hashtag)}`, {
+                const response = await axios.get(`http://localhost/twitter/backend/controller/GetPostsByHashtag.php?hashtag=${encodeURIComponent(hashtag)}`, {
                     withCredentials: true,
                 });
 

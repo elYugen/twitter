@@ -1,11 +1,14 @@
 <?php
-require_once('function.php');
-
 header("Access-Control-Allow-Origin: http://localhost:5173");
 header("Access-Control-Allow-Credentials: true");
 header("Access-Control-Allow-Methods: POST, OPTIONS");
 header("Access-Control-Allow-Headers: Content-Type");
 header('Content-Type: application/json');
+
+require_once('../function.php');
+require_once('../model/EditPost.php');
+
+$connect = new Connect();
 
 if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
     exit(0);
@@ -28,21 +31,10 @@ if (!isset($data['post_id']) || !isset($data['content'])) {
 $post_id = $data['post_id'];
 $content = $data['content'];
 
-$db = dbconnect();
 
-$query = "UPDATE publications SET content = :content WHERE id = :post_id";
-$stmt = $db->prepare($query);
-$stmt->bindParam(':content', $content, PDO::PARAM_STR);
-$stmt->bindParam(':post_id', $post_id, PDO::PARAM_INT);
+$editpost = new EditPost($connect);
+$result = $editpost->Edited($post_id, $content);
 
-try {
-    $stmt->execute();
-    if ($stmt->rowCount() > 0) {
-        echo json_encode(['success' => true, 'message' => 'Publication mise à jour avec succès']);
-    } else {
-        echo json_encode(['success' => false, 'message' => 'Aucune modification effectuée ou publication non trouvée']);
-    }
-} catch (PDOException $e) {
-    http_response_code(500);
-    echo json_encode(['error' => 'Erreur lors de la mise à jour de la publication', 'details' => $e->getMessage()]);
-}
+echo json_encode($result);
+
+?>

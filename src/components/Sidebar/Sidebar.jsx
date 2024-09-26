@@ -11,7 +11,7 @@ function Sidebar() {
   }, []);
 
   const fetchAllHashtags = () => {
-    axios.get("http://localhost/twitter/backend/getAllHashtag.php", { withCredentials: true })
+    axios.get("http://localhost/twitter/backend/controller/GetAllHashtag.php", { withCredentials: true })
       .then(response => {
         setHashtags(response.data);
       })
@@ -25,7 +25,7 @@ function Sidebar() {
     setSearchTerm(term);
 
     if (term.length > 0) {
-      axios.get(`http://localhost/twitter/backend/searchHashtag.php?term=${term}`, { withCredentials: true })
+      axios.get(`http://localhost/twitter/backend/controller/SearchHashtag.php?term=${term}`, { withCredentials: true })
         .then(response => {
           setHashtags(response.data);
         })

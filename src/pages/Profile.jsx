@@ -19,7 +19,7 @@ function Home() {
 
     useEffect(() => {
         // Session utilisateur
-        axios.get("http://localhost/twitter/backend/session.php", { withCredentials: true })
+        axios.get("http://localhost/twitter/backend/controller/Session.php", { withCredentials: true })
         .then(response => {
             setSession(response.data);
         })
@@ -29,7 +29,7 @@ function Home() {
 
         // Données de l'utilisateur spécifique
         if (id) {
-            axios.get(`http://localhost/twitter/backend/getUserData.php?id=${id}`, { withCredentials: true })
+            axios.get(`http://localhost/twitter/backend/controller/GetUserData.php?id=${id}`, { withCredentials: true })
             .then(response => {
                 setUserData(response.data);
             })
@@ -42,7 +42,7 @@ function Home() {
     }, [id]);
 
     const fetchUserPosts = () => {
-        axios.get(`http://localhost/twitter/backend/getAllPostsFromUser.php?id=${id}`, { withCredentials: true })
+        axios.get(`http://localhost/twitter/backend/controller/GetAllPostsFromUser.php?id=${id}`, { withCredentials: true })
         .then(response => {
             setUserPosts(response.data);
         })
@@ -54,7 +54,7 @@ function Home() {
     const deletePost = async (postId) => {
         if (window.confirm("Êtes-vous sûr de vouloir supprimer cette publication ?")) {
             try {
-                const response = await axios.post('http://localhost/twitter/backend/deletePostOnProfile.php', 
+                const response = await axios.post('http://localhost/twitter/backend/controller/DeletePost.php', 
                     { post_id: postId },
                     { withCredentials: true }
                 );
@@ -80,7 +80,7 @@ function Home() {
 
     const saveEdit = async (postId, newContent) => {
         try {
-            const response = await axios.post('http://localhost/twitter/backend/editPostOnProfile.php', 
+            const response = await axios.post('http://localhost/twitter/backend/controller/EditPost.php', 
                 { post_id: postId, content: newContent },
                 { withCredentials: true }
             );
@@ -90,7 +90,7 @@ function Home() {
                 ));
                 setEditingPost(null);
             } else {
-                alert(response.data.message);
+                alert(response.data.message || "La modification a échoué");
             }
         } catch (error) {
             console.error("Erreur lors de la mise à jour de la publication:", error);

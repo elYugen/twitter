@@ -14,8 +14,8 @@ function Login() {
         setError('');
 
         try {
-            const response = await axios.post('http://localhost/twitter/backend/userRegister.php', {
-                login: true,
+            const response = await axios.post('http://localhost/twitter/backend/controller/UserRegister.php', {
+                register: true,
                 username,
                 password,
                 email

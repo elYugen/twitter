@@ -16,7 +16,7 @@ function CreatePost() {
 
   useEffect(() => {
     // Récupérer la session
-    axios.get("http://localhost/twitter/backend/session.php", { withCredentials: true })
+    axios.get("http://localhost/twitter/backend/controller/Session.php", { withCredentials: true })
       .then(response => {
         console.log('Données de session:', response.data); 
         setSession(response.data);
@@ -70,7 +70,7 @@ function CreatePost() {
         console.log("Image ajoutée au FormData : ", image);
       }
 
-      const response = await axios.post('http://localhost/twitter/backend/createPost.php', 
+      const response = await axios.post('http://localhost/twitter/backend/controller/CreatePost.php', 
         formData,
         { 
           withCredentials: true,
@@ -108,7 +108,7 @@ function CreatePost() {
   return (
     <div className={styles.createPost}>
       <img src={session.pictures} alt="user" className={styles.profilePicture} />
-      <form onSubmit={handleSubmit} className={styles.textareaContainer} enctype="multipart/form-data">
+      <form onSubmit={handleSubmit} className={styles.textareaContainer} encType="multipart/form-data">
         <textarea  placeholder='Quoi de neuf docteur ?' value={content} onChange={(e) => setContent(e.target.value)}></textarea>
         {previewImage && (
           <div className={styles.imagePreview}>

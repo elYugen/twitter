@@ -15,7 +15,7 @@ function Navbar () {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   useEffect(() => {
-    axios.get("http://localhost/twitter/backend/session.php", { withCredentials: true })
+    axios.get("http://localhost/twitter/backend/controller/Session.php", { withCredentials: true })
       .then(response => {
         setSession(response.data);
       })
@@ -25,7 +25,7 @@ function Navbar () {
   }, []);
 
   const handleLogout = () => {
-    axios.post("http://localhost/twitter/backend/userLogout.php", {}, { withCredentials: true })
+    axios.post("http://localhost/twitter/backend/controller/UserLogout.php", {}, { withCredentials: true })
       .then(response => {
         if (response.data.success) {
           setSession(null);

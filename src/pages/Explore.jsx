@@ -8,7 +8,7 @@ function Explore() {
   
     useEffect(() => {
       // récupérations des hashtag
-      axios.get("http://localhost/twitter/backend/getAllHashtag.php", { withCredentials: true })
+      axios.get("http://localhost/twitter/backend/controller/GetAllHashtag.php", { withCredentials: true })
       .then(response => {
           setHashtag(response.data);
       })

@@ -9,7 +9,7 @@ function Login() {
         event.preventDefault();
     
         try {
-            const response = await axios.post('http://localhost/twitter/backend/userLogin.php', {
+            const response = await axios.post('http://localhost/twitter/backend/controller/UserLogin.php', {
                 username: username,
                 password: password
             }, {

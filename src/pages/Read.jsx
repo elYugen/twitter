@@ -17,7 +17,7 @@ function Read() {
     const { id } = useParams();
 
     const fetchPostData = useCallback(() => {
-        axios.get(`http://localhost/twitter/backend/getPostByIdForReading.php?id=${id}`, { withCredentials: true })
+        axios.get(`http://localhost/twitter/backend/controller/GetPostByIdForReading.php?id=${id}`, { withCredentials: true })
             .then(response => {
                 setPostData(response.data);
             })
@@ -29,7 +29,7 @@ function Read() {
 
     useEffect(() => {
         // Récupérer la session utilisateur
-        axios.get("http://localhost/twitter/backend/session.php", { withCredentials: true })
+        axios.get("http://localhost/twitter/backend/controller/Session.php", { withCredentials: true })
             .then(response => {
                 setSession(response.data);
             })
@@ -52,7 +52,7 @@ function Read() {
         }
 
         try {
-            const response = await axios.post('http://localhost/twitter/backend/createCommentOnPostById.php', {
+            const response = await axios.post('http://localhost/twitter/backend/controller/CreateComment.php', {
                 author_id: session.id,
                 publication_id: id,
                 content: commentContent

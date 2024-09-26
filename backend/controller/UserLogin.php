@@ -1,27 +1,23 @@
 <?php
-require_once('function.php');
+require_once('../model/UserLogin.php'); 
 header('Content-Type: application/json');
-
-$data = json_decode(file_get_contents("php://input"), true);
 
 session_start();
 
+$data = json_decode(file_get_contents("php://input"), true);
 
 if (isset($data['username']) && isset($data['password'])) {
     $username = $data['username'];
     $password = $data['password'];
 
     if (!empty($username) && !empty($password)) {
-        $dbh = dbconnect();
+        $userModel = new UserLogin($connect);
 
-        $query = "SELECT * FROM users WHERE username = :username";
-        $stmt = $dbh->prepare($query);
-        $stmt->bindParam(':username', $username, PDO::PARAM_STR);
-        $stmt->execute();
-        $user = $stmt->fetch(PDO::FETCH_ASSOC);
+        $user = $userModel->findUserByUsername($username);
 
         if ($user) {
-            if (password_verify($password, $user['password'])) {
+            if ($userModel->verifyPassword($password, $user['password'])) {
+
                 $_SESSION['id'] = $user['id'];
                 $_SESSION['username'] = $user['username'];
                 $_SESSION['email'] = $user['email'];
@@ -57,4 +53,3 @@ if (isset($data['username']) && isset($data['password'])) {
         'message' => 'Requête invalide'
     ]);
 }
-?>

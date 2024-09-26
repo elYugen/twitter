@@ -11,7 +11,7 @@ function Home() {
     useEffect(() => {
 
         // session utilisateur
-        axios.get("http://localhost/twitter/backend/session.php", { withCredentials: true })
+        axios.get("http://localhost/twitter/backend/controller/Session.php", { withCredentials: true })
         .then(response => {
             setSession(response.data);
         })

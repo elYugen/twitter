@@ -1,0 +1,3 @@
+RewriteEngine On
+RewriteBase /twitter/backend/
+RewriteRule ^$ view/index.php [L]

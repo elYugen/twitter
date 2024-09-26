@@ -10,8 +10,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
     exit();
 }
 
+require_once(__DIR__ .'/config/config.php');
 
-    // Récupère le fichier de connexion à la base de donnée 
-    require_once('./config/config.php');
+$connect = new Connect();
+    
+//$db = $connect->getPDO();
+
 
 ?>

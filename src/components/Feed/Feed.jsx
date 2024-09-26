@@ -8,7 +8,7 @@ function Feed() {
 
   const fetchPosts = useCallback(async () => {
     try {
-      const response = await axios.get("http://localhost/twitter/backend/getAllPosts.php");
+      const response = await axios.get("http://localhost/twitter/backend/controller/GetAllPost.php");
       if (Array.isArray(response.data)) {
         setData(response.data);
         // console.log("Publication a été mis à jour:", response.data); // affiche dans la console si les publications sont mise à jour
